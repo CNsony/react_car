@@ -12,7 +12,12 @@ import PublicAlert from '@/components/alert/alert';
 import TouchableOpacity from '@/components/TouchableOpacity/TouchableOpacity';
 import mixin, { padStr } from '@/utils/mixin';
 import './home.less';
+import { Layout, Carousel, Row, Col, Input } from "antd"
+import { NavLink } from 'react-router-dom';
+import PublicFooter from "@/components/footer/footer";
 
+
+const Search = Input.Search
 @mixin({padStr})
 class Home extends Component {
   static propTypes = {
@@ -25,7 +30,41 @@ class Home extends Component {
 
   state = {
     alertStatus: false, //弹框状态
-    alertTip: '', //弹框提示文字
+    alertTip: '',
+    LinkList:[
+      {
+        link:"",
+        name:"汽车美容",
+        iconUrl:""
+      },
+      {
+        link:"",
+        name:"家政预约",
+        imgLink:""
+      },
+      {
+        link:"",
+        name:"家政预约",
+        imgLink:""
+      },
+      {
+        link:"",
+        name:"家政预约",
+        imgLink:""
+      }
+    ],
+    dataList:[
+      {
+        ItemImg:"",
+        ItemId:"1",
+        ItemName:"car1"
+      },
+      {
+        ItemImg:"",
+        ItemId:"2",
+        ItemName:"car2"
+      }
+    ] //弹框提示文字
   }
   /**
    * 已选择的商品数据
@@ -123,12 +162,60 @@ class Home extends Component {
   }
   
 
+  selectItem=item=>{
+    this.props.history.push('/itemList',{itemid:item.ItemId});
+  }
+
   render() {
     
     return (
       <main className="home-container">
-        <PublicHeader title='首页' record />
-        <p className="common-title">请录入您的信息</p>
+        <div>
+          <Search placeholder="搜索服务" onSearch={value => console.log(value)} style={{ width: "100%" , position:"fixed",top:0,height:"40px", zIndex :1000,marginTop:'10px',fontSize:'0.5rem',textAlign:'center' }} />
+        </div>
+        <div>
+          <Row>
+            <Col>
+              <Carousel autoplay effect='fade'>
+                <div><h3>1</h3></div>
+                <div><h3>2</h3></div>
+                <div><h3>3</h3></div>
+                <div><h3>4</h3></div>
+              </Carousel>
+            </Col>
+          </Row>
+        </div>
+        <div id="home_part3">
+          <Row>
+            {
+              this.state.LinkList.map((item, index) => {
+                return <Col span='6'><NavLink to={item.link} className="nav-link">{item.name}</NavLink></Col>
+              })
+            }
+            
+          </Row>
+        </div>
+        <div id='home_part4'>
+            <Row type='flex' justify='center' id='part4_title'>
+              <Col span="16">---精选推荐---</Col>
+            </Row>
+            <Row gutter={24} id='part4_row'>
+              {
+                this.state.dataList.map((item, index) => {
+                  return <Col span={12}>
+                  <div itemID={item.itemID} onClick={this.selectItem.bind(this,item)}>
+                    <div className='home_item_img'>
+                      <img src={item.ItemImg} alt=""/>
+                    </div>
+                    <div className='home_item_title'>{item.ItemName}</div>
+                  </div>
+                    
+                  </Col>
+                })
+              }
+            </Row>
+        </div>
+        {/* <p className="common-title">请录入您的信息</p>
         <form className="home-form">
           <div className="home-form-tiem">
             <span>销售金额：</span>
@@ -166,7 +253,8 @@ class Home extends Component {
           <img src={this.props.formData.imgpath} className="select-img" alt=""/>
         </div>
         <TouchableOpacity className="submit-btn" clickCallBack={this.sumitForm} text="提交" />
-        <PublicAlert closeAlert={this.closeAlert} alertTip={this.state.alertTip} alertStatus={this.state.alertStatus} />
+        <PublicAlert closeAlert={this.closeAlert} alertTip={this.state.alertTip} alertStatus={this.state.alertStatus} /> */}
+        <PublicFooter />
       </main>
     );
   }

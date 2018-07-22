@@ -8,6 +8,7 @@ import {Provider} from 'react-redux';
 import store from '@/store/store';
 import './utils/setRem';
 import './style/base.css';
+import 'antd/dist/antd.less';
 
 FastClick.attach(document.body);
 
